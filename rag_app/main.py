@@ -1,0 +1,25 @@
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from Api.routes import auth_routes, chat_routes
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Despiértase e inicializa a Chroma desde Base RAG Service.
+    chat_routes.rag_engine.load_or_rebuild()
+    yield
+
+app = FastAPI(title="RAG for Unity API (Clean Arch)", version="3.0", lifespan=lifespan)
+
+# Restricciones Cross-Origin
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Adherencia total de Rutas Modularizadas y enrutadores
+app.include_router(auth_routes.router, tags=["Authentication"])
+app.include_router(chat_routes.router, tags=["Chat e Inferencia"])
