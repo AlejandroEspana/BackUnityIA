@@ -5,6 +5,7 @@ WORKDIR /app
 # Instalar dependencias del sistema necesarias para compilar paquetes (ej. chromadb)
 RUN apt-get update && apt-get install -y \
     build-essential \
+    ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar el archivo de dependencias primero para cachear esta capa y evitar recompilar en cada cambio de código

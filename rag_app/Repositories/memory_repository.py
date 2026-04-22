@@ -25,7 +25,7 @@ class MemoryRepository:
         rows.reverse()
         context_lines = []
         for role, msg in rows:
-            name = "Jugador" if role == "user" else "Tú (El Guardián)"
+            name = "Jugador" if role == "user" else "Tú"
             context_lines.append(f"{name}: {msg}")
             
         return "\\n".join(context_lines)

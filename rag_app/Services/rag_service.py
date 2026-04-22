@@ -2,9 +2,9 @@ import os
 import shutil
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.llms import Ollama
+from langchain_ollama import OllamaLLM as Ollama
 from Core.config import PERSIST_DIR, DOCS_DIR, OLLAMA_URL, MODEL_NAME, BACKEND_PERSONALITY
 
 class RAGService:
