@@ -91,7 +91,7 @@ class RAGService:
         
         prompt = f"""{BACKEND_PERSONALITY}
         
-        Historial de tu conversación reciente con este jugador (solo como referencia):
+        Historial de tu conversación reciente con este usuario (solo como referencia):
         {chat_history}
         
         Responde a la pregunta basándote ESTRICTAMENTE en el siguiente contexto. 
