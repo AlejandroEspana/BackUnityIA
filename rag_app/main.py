@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from Api.routes import auth_routes, chat_routes
+from Api.routes import auth_routes, chat_routes, save_routes
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -23,3 +23,4 @@ app.add_middleware(
 # Adherencia total de Rutas Modularizadas y enrutadores
 app.include_router(auth_routes.router, tags=["Authentication"])
 app.include_router(chat_routes.router, tags=["Chat e Inferencia"])
+app.include_router(save_routes.router, tags=["Save System"])

@@ -5,7 +5,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_ollama import OllamaLLM as Ollama
-from Core.config import PERSIST_DIR, DOCS_DIR, OLLAMA_URL, MODEL_NAME, BACKEND_PERSONALITY
+from Core.config import PERSIST_DIR, DOCS_DIR, OLLAMA_URL, MODEL_NAME
 
 class RAGService:
     def __init__(self):
@@ -89,7 +89,9 @@ class RAGService:
         docs = self.vectorstore.similarity_search(user_message, k=2)
         context = "\n".join([doc.page_content for doc in docs])
         
-        prompt = f"""{BACKEND_PERSONALITY}
+        prompt = f"""Instrucciones para el Asistente:
+        Debes adoptar COMPLETAMENTE cualquier personalidad, rol o tono que se describa en el Contexto documental proporcionado a continuación.
+        Si el contexto indica que eres un experto en algo, compórtate como tal en tu respuesta.
         
         Historial de tu conversación reciente con este usuario (solo como referencia):
         {chat_history}

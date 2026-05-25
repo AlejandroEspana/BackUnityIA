@@ -1,10 +1,10 @@
 import sqlite3
 import os
-from Core.config import PERSIST_DIR
+from Core.config import SQLITE_DIR
 
 def get_db_connection():
-    os.makedirs(PERSIST_DIR, exist_ok=True)
-    db_path = os.path.join(PERSIST_DIR, "rag_database.db")
+    os.makedirs(SQLITE_DIR, exist_ok=True)
+    db_path = os.path.join(SQLITE_DIR, "rag_database.db")
     # Forzamos chequeo de Foreign Keys para mantener Relaciones ACID
     conn = sqlite3.connect(db_path)
     conn.execute("PRAGMA foreign_keys = ON")
@@ -35,6 +35,17 @@ def init_db():
                 user_id INTEGER NOT NULL,
                 role TEXT NOT NULL,
                 message TEXT NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+            )
+        ''')
+
+        # Tabla para guardar el progreso (Save System)
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS saves (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL UNIQUE,
+                save_data BLOB NOT NULL,
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
             )
