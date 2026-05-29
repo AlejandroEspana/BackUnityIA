@@ -6,8 +6,14 @@ def get_db_connection():
     os.makedirs(SQLITE_DIR, exist_ok=True)
     db_path = os.path.join(SQLITE_DIR, "rag_database.db")
     # Forzamos chequeo de Foreign Keys para mantener Relaciones ACID
-    conn = sqlite3.connect(db_path)
+    # Establecemos timeout=10.0 para que las transacciones concurrentes esperen antes de fallar
+    conn = sqlite3.connect(db_path, timeout=10.0)
     conn.execute("PRAGMA foreign_keys = ON")
+    # Activamos WAL (Write-Ahead Logging) para permitir lecturas y escrituras concurrentes fluidas
+    try:
+        conn.execute("PRAGMA journal_mode=WAL")
+    except Exception as e:
+        pass  # Evitar fallos si la base de datos es de solo lectura en algún despliegue
     return conn
 
 def init_db():
@@ -46,6 +52,19 @@ def init_db():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL UNIQUE,
                 save_data BLOB NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+            )
+        ''')
+
+        # Tabla para registrar analíticas de estudiantes
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS student_analytics (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                project_id TEXT NOT NULL,
+                activity_type TEXT NOT NULL,
+                details TEXT NOT NULL,
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
             )

@@ -27,9 +27,15 @@ services:
     container_name: rag_api
     ports:
       - "8000:8000"
+    environment:
+      - PERSIST_DIR=/app/chroma_db
+      - SQLITE_DIR=/app/sqlite_db
+      - DOCS_DIR=/documentos
+      - OLLAMA_URL=http://ollama:11434
     volumes:
       - ./documentos:/documentos
       - ./chroma_db:/app/chroma_db
+      - ./sqlite_db:/app/sqlite_db
     depends_on:
       - ollama
     restart: unless-stopped
