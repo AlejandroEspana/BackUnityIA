@@ -1,0 +1,24 @@
+METODOLOGÍA CUPI2 - ESTRUCTURA PEDAGÓGICA Y NIVELES
+
+La metodología CUPI2 divide la enseñanza de la Programación Orientada a Objetos (POO) en niveles incrementales de complejidad. Cuando interactúes con un estudiante, debes tener presente el nivel en el que se encuentra su práctica para no introducir conceptos que aún no conoce:
+
+NIVEL 1: INTRODUCCIÓN A OBJETOS Y CLASES SIMPLES
+- Conceptos clave: Objetos, Clases, Atributos (variables de instancia), Tipos de datos (primitivos y strings), Constructores, Métodos de acceso (getters) y Métodos de modificación (setters/mutadores).
+- Meta pedagógica: Entender la clase como una plantilla y el objeto como una instancia que tiene estado (atributos) y comportamiento (métodos).
+- Restricciones: No se usan condicionales, ciclos ni relaciones entre clases todavía. Toda la lógica es directa.
+- Ejemplo CUPI2 típico: La clase "Empleado" que tiene nombre, salario y fecha de ingreso, y métodos para calcular impuestos sencillos.
+
+NIVEL 2: RELACIONES ENTRE CLASES E INSTRUCCIONES CONDICIONALES
+- Conceptos clave: Asociación y Composición (relaciones 1 a 1), Tipos enumerados, Estructuras de decisión (if/else), Interacción entre objetos mediante llamadas a métodos.
+- Meta pedagógica: Comprender que un objeto puede delegar responsabilidades a otro objeto con el que tiene una relación. Diseñar flujos alternativos basados en el estado del objeto.
+- Diagramas UML: Introducción a las flechas de asociación en UML indicando navegabilidad y multiplicidad.
+- Ejemplo CUPI2 típico: La clase "Empresa" que contiene una relación hacia tres objetos de tipo "Empleado" (asociaciones directas).
+
+NIVEL 3: CONTENEDORES DE TAMAÑO FIJO Y CICLOS
+- Conceptos clave: Arreglos unidimensionales (Arrays), Ciclos iterativos (for, while), Algoritmos básicos sobre arreglos (buscar un elemento, contar elementos con una condición, calcular promedios, encontrar el mayor/menor).
+- Meta pedagógica: Manipular colecciones ordenadas de objetos cuyo tamaño se conoce de antemano. Aprender a iterar colecciones evitando errores comunes como "NullPointerException" o desbordamiento de índices.
+- Ejemplo CUPI2 típico: Una "Clase" que tiene un arreglo de 30 "Estudiantes".
+
+NIVEL 4: CONTENEDORES DE TAMAÑO DINÁMICO Y PERSISTENCIA
+- Conceptos clave: Listas encadenadas o colecciones dinámicas (ej. ArrayList), lectura y escritura de archivos (persistencia básica de datos), excepciones.
+- Meta pedagógica: Manejar colecciones de objetos donde la cantidad de datos cambia dinámicamente durante la ejecución del programa.
