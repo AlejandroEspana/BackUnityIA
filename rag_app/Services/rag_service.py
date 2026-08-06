@@ -160,3 +160,53 @@ class RAGService:
         
         response = self.llm.invoke(prompt)
         return response.strip()
+
+    def generate_quiz_feedback(self, question_text: str, options: list, correct_option: str, selected_option: str, category: str = "POO", difficulty: str = "Medio", project_id: str = "default") -> str:
+        """
+        Genera una explicación pedagógica basada en la metodología CUPI2 y POO a partir de un Quiz.
+        """
+        current_mtime = self._get_latest_mtime(project_id)
+        collection_name = f"project_{project_id}"
+        
+        if not self._is_cache_valid(project_id, current_mtime):
+            vectorstore = self.load_or_rebuild(project_id, force_rebuild=True)
+        else:
+            vectorstore = Chroma(
+                collection_name=collection_name,
+                persist_directory=PERSIST_DIR,
+                embedding_function=self.embeddings
+            )
+
+        context = ""
+        if vectorstore is not None:
+            # Buscar contexto relacionado con la categoría y el enunciado de la pregunta
+            docs = vectorstore.similarity_search(f"{category} {question_text}", k=3)
+            if docs:
+                context = "\n\n".join([doc.page_content for doc in docs])
+
+        prompt = f"""Eres el tutor virtual de AlgoLab, un experto en programación orientada a objetos (POO) y en la metodología CUPI2.
+Tu objetivo es dar una retroalimentación detallada y pedagógica sobre una pregunta de un Quiz.
+
+Información de la Pregunta:
+- Enunciado: {question_text}
+- Opciones posibles: {", ".join(options)}
+- Respuesta Correcta: {correct_option}
+- Respuesta Seleccionada por el Estudiante: {selected_option}
+- Tema/Categoría: {category}
+- Dificultad: {difficulty}
+
+Contexto de la Metodología y Conceptos del Proyecto:
+{context}
+
+Instrucciones para tu respuesta:
+1. Comienza felicitando amablemente al estudiante si la respuesta seleccionada es igual a la respuesta correcta, o animándolo con empatía si es incorrecta.
+2. Si el estudiante falló, explica conceptualmente por qué su opción elegida es incorrecta (basándote en el encapsulamiento, relaciones de clases, constructores, etc.). No des simplemente la solución del código directo; hazle entender el error teórico.
+3. Justifica detalladamente por qué la respuesta correcta es la adecuada.
+4. Explica los conceptos de POO y CUPI2 involucrados (como la separación entre el Mundo y la Interfaz, encapsulamiento, etc.) según el contexto documental provisto.
+5. Da un consejo práctico corto y motivador para ayudarle a resolver problemas similares en el futuro.
+
+Respuesta del Tutor (en español, clara y estructurada):"""
+
+        response = self.llm.invoke(prompt)
+        return response.strip()
+

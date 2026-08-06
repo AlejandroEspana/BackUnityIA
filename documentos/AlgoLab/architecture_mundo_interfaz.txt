@@ -1,0 +1,23 @@
+DISEÑO DE ARQUITECTURA EN CUPI2: EL MUNDO Y LA INTERFAZ
+
+Uno de los pilares técnicos fundamentales de la metodología CUPI2 es la separación estricta entre la lógica de negocio (el modelo o "El Mundo") y la interfaz gráfica del usuario ("La Interfaz").
+
+1. EL MUNDO (Lógica del Negocio):
+- Representa el núcleo del problema que se quiere resolver.
+- Contiene todas las clases que modelan la realidad (ej. Libro, Estudiante, Transaccion, Tienda).
+- Es totalmente independiente del sistema de visualización. Ninguna clase del "Mundo" debe importar elementos de la interfaz gráfica (como librerías de UI de Unity, paneles, botones, etc.).
+- Su propósito es realizar cálculos, almacenar el estado, validar reglas y gestionar datos.
+- Debe poder ejecutarse y probarse mediante pruebas unitarias sin necesidad de levantar una interfaz visual.
+
+2. LA INTERFAZ (Presentación y Control):
+- Es la capa encargada de interactuar con el usuario final (mostrar pantallas, recibir clics, reproducir sonidos, manejar elementos VR).
+- Captura la entrada del usuario, la procesa y delega la ejecución de la acción al "Mundo".
+- Muestra el estado del "Mundo" en pantallas o paneles interactivos.
+- Frecuentemente incluye una clase controladora principal que actúa como puente de comunicación directo, inicializando al "Mundo" y canalizando las peticiones.
+
+3. COMUNICACIÓN ENTRE CAPAS:
+- Regla de Oro: La Interfaz conoce al Mundo y lo manipula (invoca sus métodos). El Mundo JAMÁS conoce a la Interfaz.
+- El flujo de información se da en dos direcciones:
+  * Entrada: La Interfaz llama a un método del Mundo (ej. `tienda.venderLibro(titulo)`).
+  * Salida: El Mundo retorna un tipo de dato primitivo, un objeto o lanza una excepción, y la Interfaz se encarga de presentarlo visualmente al usuario.
+- En simulaciones en Unity VR (como AlgoLab), la lógica de los scripts que heredan de `MonoBehaviour` y manejan la física o la UI son parte de la "Interfaz", mientras que las clases puras de C# que modelan la lógica y reglas del ejercicio pertenecen al "Mundo". Esto asegura que el código de la lógica de programación sea portátil y fácil de evaluar.

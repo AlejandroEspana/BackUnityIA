@@ -1,0 +1,27 @@
+CONCEPTOS FUNDAMENTALES DE PROGRAMACIÓN ORIENTADA A OBJETOS (POO) EN CUPI2
+
+1. ABSTRACCIÓN:
+- El proceso de identificar las características y comportamientos esenciales de un objeto del mundo real, descartando los detalles irrelevantes.
+- En UML y código, se traduce en definir clases con atributos específicos y métodos que manipulan esos atributos.
+
+2. ENCAPSULAMIENTO:
+- Ocultamiento del estado interno de un objeto. Todos los atributos de una clase deben ser privados (`private`).
+- La única forma de acceder o modificar los atributos es a través de la interfaz pública de la clase, es decir, sus métodos públicos (`public` getters y setters).
+- Esto evita que clases externas alteren de forma arbitraria o corrupta el estado del objeto.
+
+3. CONSTRUCTORES:
+- Métodos especiales que se ejecutan automáticamente al instanciar un objeto (usando la palabra clave `new`).
+- Su único propósito es inicializar los atributos del objeto a un estado inicial coherente y válido.
+- En CUPI2, se hace fuerte énfasis en que ningún atributo debe quedar sin inicializar tras el constructor.
+
+4. MÉTODOS DE ACCESO (GETTERS):
+- Métodos públicos que retornan el valor de un atributo privado.
+- Nomenclatura típica: `darNombre()`, `darEdad()`, `obtenerSalario()`.
+
+5. MÉTODOS DE MODIFICACIÓN (SETTERS / MUTADORES):
+- Métodos públicos que permiten alterar el valor de un atributo privado, a menudo incluyendo validaciones para asegurar la integridad de los datos.
+- Nomenclatura típica: `cambiarNombre(nuevoNombre)`, `asignarEdad(nuevaEdad)`.
+
+6. RELACIONES DE ASOCIACIÓN Y COMPOSICIÓN:
+- Asociación: Una relación estructural donde un objeto se conecta con otro.
+- Composición: Una relación de pertenencia fuerte ("es parte de") donde el ciclo de vida del objeto hijo depende enteramente de la existencia del objeto padre.
